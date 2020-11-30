@@ -12,7 +12,7 @@ void setup() {
     background(0);
     c = new Cmd(currentDirectory);
     try {
-        c.ls();
+        c.cmd("ls");
     } catch (NullPointerException e) {
         e.printStackTrace();
         log += "Error: not found \"" + currentDirectory + "\"\n";
@@ -30,12 +30,11 @@ void keyPressed() {
     else if(currentWords.length() > 0) currentWords = currentWords.substring(0, currentWords.length()-1);
     if(key == ENTER){
         log += "$ " + currentWords;
-        if(currentWords.replace("\n", "").equals("ls")){
-            try {
-                log += c.ls() + "\n";
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+        currentWords = currentWords.replace("\n", "");
+        try {
+            log += c.cmd(currentWords) + "\n";
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         log += currentDirectory + " ";
         currentWords = "";
