@@ -57,14 +57,27 @@ void keyPressed() {
         log.add(c.getCurrentDirectory() + " $ " + currentWords);
         currentWords = currentWords.replace("\n", "");
         if(currentWords.equals("exit")) exit();
-        try {
-            //log.add(c.cmd(currentWords) + "\n");
-            ArrayList<String> tmp = parser(c.cmd(currentWords));
-            for(int i = 0; i < tmp.size(); i++){
-                log.add(tmp.get(i));
+        if(currentWords.indexOf(" ") != -1){
+            String arr = currentWords.substring(currentWords.indexOf(" "), currentWords.length());
+            currentWords = currentWords.substring(0, currentWords.indexOf(" "));
+            try {
+                println(currentWords + "\n" + arr);
+                ArrayList<String> tmp = parser(c.cmd(currentWords, arr));
+                for(int i = 0; i < tmp.size(); i++){
+                    log.add(tmp.get(i));
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        }else{
+            try {
+                ArrayList<String> tmp = parser(c.cmd(currentWords));
+                for(int i = 0; i < tmp.size(); i++){
+                    log.add(tmp.get(i));
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
         log.add(c.getCurrentDirectory() + " ");
         currentWords = "";
