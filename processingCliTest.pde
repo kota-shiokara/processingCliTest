@@ -7,7 +7,8 @@ String currentDirectory = "C:/"; // directory
 String currentWords = ""; // 打ち込んでる文字列
 ArrayList<String> log = new ArrayList<String>(); // 表示するログ
 
-float high = 0;
+float high = 0; // Height of text show
+int photo = 0; // Number of image save
 
 void setup() {
     size(400, 300);
@@ -57,7 +58,11 @@ void keyPressed() {
         log.add(c.getCurrentDirectory() + " $ " + currentWords);
         currentWords = currentWords.replace("\n", "");
         if(currentWords.equals("exit")) exit();
-        if(currentWords.indexOf(" ") != -1){
+        else if(currentWords.equals("save")) {
+            save("frame/" + photo + ".png");
+            photo++;
+        }
+        else if(currentWords.indexOf(" ") != -1){
             String arr = currentWords.substring(currentWords.indexOf(" "), currentWords.length());
             currentWords = currentWords.substring(0, currentWords.indexOf(" "));
             try {
