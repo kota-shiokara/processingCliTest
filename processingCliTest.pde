@@ -9,6 +9,7 @@ ArrayList<String> log = new ArrayList<String>(); // 表示するログ
 
 float high = 0; // Height of text show
 int photo = 0; // Number of image save
+boolean isRecord = false; // Record switch
 
 void setup() {
     size(400, 300);
@@ -31,6 +32,9 @@ void draw() {
       if(i != log.size() - 1) text(newLine, 0, 16 + (14 * i));
       else text(newLine + "$ " + currentWords, 0, 16 + (14 * i));
     }
+    if(isRecord){
+        saveFrame("frames/####.png");
+    }
 }
 
 ArrayList<String> parser(String str){
@@ -51,13 +55,21 @@ ArrayList<String> parser(String str){
 }
 
 void keyPressed() {
-    if(key != 8) currentWords += key;
-    else if(currentWords.length() > 0) currentWords = currentWords.substring(0, currentWords.length()-1);
+    if(key != 8 && keyCode != SHIFT) currentWords += key;
+    else if(currentWords.length() > 0 && key == 8) currentWords = currentWords.substring(0, currentWords.length()-1);
     if(key == ENTER){
         log.remove(log.size() - 1);
         log.add(c.getCurrentDirectory() + " $ " + currentWords);
         currentWords = currentWords.replace("\n", "");
         if(currentWords.equals("exit")) exit();
+        else if(currentWords.equals("startRecord")) {
+            isRecord = true;
+            println("StartRecord");
+        }
+        else if(currentWords.equals("endRecord")){
+            isRecord = false;
+            println("EndRecord");
+        }
         else if(currentWords.equals("save")) {
             save("frame/" + photo + ".png");
             photo++;
