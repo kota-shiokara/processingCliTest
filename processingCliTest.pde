@@ -75,7 +75,7 @@ void keyPressed() {
             photo++;
         }
         else if(currentWords.indexOf(" ") != -1){
-            String arr = currentWords.substring(currentWords.indexOf(" "), currentWords.length());
+            String arr = currentWords.substring(currentWords.indexOf(" ") + 1, currentWords.length());
             currentWords = currentWords.substring(0, currentWords.indexOf(" "));
             try {
                 println(currentWords + "\n" + arr);
